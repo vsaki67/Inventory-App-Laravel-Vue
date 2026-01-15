@@ -39,4 +39,18 @@ class InventoryItemController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'unit' => ['required', 'string', 'max:50'],
+            'quantity' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        InventoryItem::create($data);
+
+        return back()->with('success', 'Item created successfully.');
+    }
+
+
 }

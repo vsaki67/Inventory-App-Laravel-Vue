@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-
 class StockMovementController extends Controller
 {
     public function add(Request $request)
@@ -63,7 +62,6 @@ class StockMovementController extends Controller
                         'message' => "Not enough stock for item: {$item->name}",
                     ]);
                 }
-
 
                 $item->quantity = (float) $item->quantity - $qty;
                 $item->save();
