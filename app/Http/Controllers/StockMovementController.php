@@ -6,6 +6,8 @@ use App\Models\InventoryItem;
 use App\Models\StockMovement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+
 
 class StockMovementController extends Controller
 {
@@ -57,8 +59,11 @@ class StockMovementController extends Controller
                 $qty = (float) $row['quantity'];
 
                 if (((float) $item->quantity - $qty) < 0) {
-                    abort(422, "Not enough stock for item: {$item->name}");
+                    throw ValidationException::withMessages([
+                        'message' => "Not enough stock for item: {$item->name}",
+                    ]);
                 }
+
 
                 $item->quantity = (float) $item->quantity - $qty;
                 $item->save();
