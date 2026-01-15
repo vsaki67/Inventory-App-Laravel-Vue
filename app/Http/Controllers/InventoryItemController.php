@@ -25,4 +25,18 @@ class InventoryItemController extends Controller
             ],
         ]);
     }
+
+    public function history(InventoryItem $inventoryItem)
+    {
+        $movements = $inventoryItem->movements()
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+        return Inertia::render('Inventory/History', [
+            'item' => $inventoryItem,
+            'movements' => $movements,
+        ]);
+    }
+
 }

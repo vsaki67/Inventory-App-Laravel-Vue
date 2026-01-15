@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\InventoryItemController;
+use App\Http\Controllers\StockMovementController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -23,9 +24,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/inventory/{inventoryItem}/history', [InventoryItemController::class, 'history'])->name('inventory.history');
+
+
 });
 
 Route::get('/inventory', [InventoryItemController::class, 'index'])->name('inventory.index');
+Route::post('/inventory/add', [StockMovementController::class, 'add'])->name('inventory.add');
+Route::post('/inventory/deduct', [StockMovementController::class, 'deduct'])->name('inventory.deduct');
 
 
 require __DIR__.'/auth.php';
